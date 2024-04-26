@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Traffic Light</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .traffic-light {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        border-radius: 20px;
+        background-image: linear-gradient(to bottom, #444 0%, #222 100%);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .light {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        transition: background-color 3s ease;
+      }
+
+      #red {
+        background-color: red;
+      }
+      #yellow {
+        background-color: yellow;
+      }
+      #green {
+        background-color: green;
+      }
+
+      h1 {
+        margin-top: 0;
+        text-align: center;
+        color: white;
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="traffic-light">
+      <h1>Traffic Light</h1>
+      <div id="red" class="light"></div>
+      <div id="yellow" class="light"></div>
+      <div id="green" class="light"></div>
+      <button id="toggleButton" onclick="toggleLight()">Toggle</button>
+    </div>
+
+    <script>
+      let intervalId = null;
+
+      function changeLight() {
+        intervalId = setInterval(() => {
+          document.getElementById("red").style.backgroundColor = "red";
+          document.getElementById("yellow").style.backgroundColor =
+            "transparent";
+          document.getElementById("green").style.backgroundColor =
+            "transparent";
+          setTimeout(() => {
+            document.getElementById("red").style.backgroundColor =
+              "transparent";
+            document.getElementById("yellow").style.backgroundColor = "yellow";
+            document.getElementById("green").style.backgroundColor =
+              "transparent";
+            setTimeout(() => {
+              document.getElementById("red").style.backgroundColor =
+                "transparent";
+              document.getElementById("yellow").style.backgroundColor =
+                "transparent";
+              document.getElementById("green").style.backgroundColor = "green";
+              setTimeout(() => {
+                clearInterval(intervalId);
+                intervalId = null;
+                changeLight(); // Restart the cycle
+              }, 4000); // Green light for 4 seconds
+            }, 3000); // Yellow light for 3 seconds
+          }, 3000); // Red light for 3 seconds
+        }, Math.floor(Math.random() * (9000 - 6000 + 1)) + 6000); // Random time between 6 to 9 seconds
+      }
+
+      function toggleLight() {
+        if (intervalId) {
+          clearInterval(intervalId);
+          intervalId = null;
+        } else {
+          changeLight();
+        }
+      }
+
+      // Initial call to start the cycle
+      changeLight();
+    </script>
+  </body>
+</html>
